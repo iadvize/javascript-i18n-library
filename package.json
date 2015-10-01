@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/iadvize/javascript-i18n-library",
   "dependencies": {
-    "numbro": "1.5.1",
+    "numbro": "1.4.0",
     "moment": "2.10.6"
   }
 }
