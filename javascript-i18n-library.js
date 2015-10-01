@@ -4,7 +4,7 @@
       referenceTimezone: 'Europe/Paris',
       targetTimezone: 'Europe/Paris',
       locale: 'fr-FR',
-      shortDateFormat: 'DD/MM/YYYY',
+      shortDateFormat: 'DD-MM-YYYY',
       longDateFormat: 'LL',
       shortTimeFormat: 'HH:mm',
       longTimeFormat: 'HH:mm:ss'
