@@ -19,7 +19,13 @@
         throw 'Bad date format for input "' + dateTimeString + '", expect ISO_8601 format.';
       }
 
-      var timeZonedDateTime = moment.tz(parsedDateTime, _config.targetTimezone);
+      var timeZonedDateTime;
+      if (_config.targetOffset !== undefined) {
+        timeZonedDateTime = parsedDateTime.minutes(_config.targetOffset);
+      } else {
+        timeZonedDateTime = moment.tz(parsedDateTime, _config.targetTimezone);
+      }
+
       return timeZonedDateTime.locale(_config.locale);
     };
 

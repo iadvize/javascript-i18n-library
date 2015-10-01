@@ -13,6 +13,7 @@ The factory accept a config object to override default configuration.
 {
     referenceTimezone: 'Europe/Paris', // timezone used when no timezone is defined on the date to parse 
     targetTimezone: 'Europe/Paris',    // timezone used to format the date
+    targetOffset: 120,                 // override the targetTimezone, add this offset (in minutes) to the parsed date
     locale: 'fr-FR',                   // locale used to format numbers, currencies and long date format
     shortDateFormat: 'DD/MM/YYYY',
     longDateFormat: 'LL',
