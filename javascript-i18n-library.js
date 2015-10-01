@@ -87,8 +87,8 @@
 
   // Node
   if (typeof module !== 'undefined' && module.exports) {
-    var numbro = require("numbro"),
-      moment = require("moment");
+    var numbro = require("numbro");
+    var moment = require("moment-timezone");
     module.exports = function (config) {
       return i18nServiceFactory(moment, numbro, config);
     };
