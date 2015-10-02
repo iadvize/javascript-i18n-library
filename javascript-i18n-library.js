@@ -21,7 +21,8 @@
 
       var timeZonedDateTime;
       if (_config.targetOffset !== undefined) {
-        timeZonedDateTime = parsedDateTime.minutes(_config.targetOffset);
+        var localDate = moment(new Date());
+        timeZonedDateTime = parsedDateTime.minutes(_config.targetOffset - localDate.utcOffset());
       } else {
         timeZonedDateTime = moment.tz(parsedDateTime, _config.targetTimezone);
       }
