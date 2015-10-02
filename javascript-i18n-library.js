@@ -1,5 +1,5 @@
-(function () {
-  var i18nServiceFactory = function (moment, numbro, config) {
+(function() {
+  var i18nServiceFactory = function(moment, numbro, config) {
     var _config = {
       referenceTimezone: 'Europe/Paris',
       targetTimezone: 'Europe/Paris',
@@ -10,7 +10,7 @@
       longTimeFormat: 'HH:mm:ss'
     };
 
-    var _parseDateTime = function (dateTimeString) {
+    var _parseDateTime = function(dateTimeString) {
       var parsedDateTime = moment.tz(
         dateTimeString,
         moment.ISO_8601,
@@ -29,7 +29,7 @@
       return timeZonedDateTime.locale(_config.locale);
     };
 
-    var _mergeConfiguration = function (baseConfig, overrideConfig) {
+    var _mergeConfiguration = function(baseConfig, overrideConfig) {
       var stampConfig = JSON.parse(JSON.stringify(baseConfig));
       for (var key in overrideConfig) {
         stampConfig[key] = overrideConfig[key];
@@ -43,7 +43,7 @@
     }
 
     return {
-      formatDateTime: function (dateTimeString, formatType) {
+      formatDateTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _config.shortDateFormat;
         var timeFormat = _config.shortTimeFormat;
@@ -54,7 +54,7 @@
 
         return timeZonedDateTime.format(dateFormat + ' ' + timeFormat);
       },
-      formatDate: function (dateTimeString, formatType) {
+      formatDate: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _config.shortDateFormat;
         if (formatType === this.formats.LONG) {
@@ -63,7 +63,7 @@
 
         return timeZonedDateTime.format(dateFormat);
       },
-      formatTime: function (dateTimeString, formatType) {
+      formatTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var timeFormat = _config.shortTimeFormat;
         if (formatType === this.formats.LONG) {
@@ -72,7 +72,7 @@
 
         return timeZonedDateTime.format(timeFormat);
       },
-      formatCurrency: function (value, decimalCount) {
+      formatCurrency: function(value, decimalCount) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
         if (decimalCount === undefined) {
@@ -95,7 +95,7 @@
   if (typeof module !== 'undefined' && module.exports) {
     var numbro = require("numbro");
     var moment = require("moment-timezone");
-    module.exports = function (config) {
+    module.exports = function(config) {
       return i18nServiceFactory(moment, numbro, config);
     };
   }
@@ -103,7 +103,7 @@
   // Browser
   if (typeof window !== 'undefined') {
     window.iadvize = window.iadvize || {};
-    window.iadvize.i18nServiceFactory = function (config) {
+    window.iadvize.i18nServiceFactory = function(config) {
       return i18nServiceFactory(window.moment, window.numbro, config);
     };
   }
