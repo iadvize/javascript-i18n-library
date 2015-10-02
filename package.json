@@ -1,6 +1,6 @@
 {
   "name": "javascript-i18n-library",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "This javascript library is used to format dates, numbers and currencies. It's compatible with Node and Browsers.",
   "main": "javascript-i18n-library.js",
   "repository": {
