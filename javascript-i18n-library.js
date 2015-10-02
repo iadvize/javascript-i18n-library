@@ -21,7 +21,7 @@
 
       var timeZonedDateTime;
       if (_config.targetOffset !== undefined) {
-        timeZonedDateTime = parsedDateTime.utc().minutes(_config.targetOffset);
+        timeZonedDateTime = parsedDateTime.utc().add(_config.targetOffset, 'minutes');
       } else {
         timeZonedDateTime = moment.tz(parsedDateTime, _config.targetTimezone);
       }
