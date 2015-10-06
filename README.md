@@ -46,8 +46,8 @@ i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 26 novembre 
 
 // Time
 i18nService.formatTime(dateToFormat);                            // 23:21
-i18nService.formatDate(dateToFormat, i18nService.formats.SHORT); // 23:21
-i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 23:21:00
+i18nService.formatTime(dateToFormat, i18nService.formats.SHORT); // 23:21
+i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
 
 // DateTime
 i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
@@ -77,8 +77,8 @@ i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 26 novembre 
 
 // Time
 i18nService.formatTime(dateToFormat);                            // 23:21
-i18nService.formatDate(dateToFormat, i18nService.formats.SHORT); // 23:21
-i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 23:21:00
+i18nService.formatTime(dateToFormat, i18nService.formats.SHORT); // 23:21
+i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
 
 // DateTime
 i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
