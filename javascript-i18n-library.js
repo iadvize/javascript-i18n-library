@@ -2,12 +2,37 @@
   var i18nServiceFactory = function(moment, numbro, config) {
     var _config = {
       referenceTimezone: 'Europe/Paris',
-      targetTimezone: 'Europe/Paris',
+      timezone: 'Europe/Paris',
       locale: 'fr-FR',
-      shortDateFormat: 'DD-MM-YYYY',
-      longDateFormat: 'LL',
-      shortTimeFormat: 'HH:mm',
-      longTimeFormat: 'HH:mm:ss'
+      dateFormat: 'DMY',
+      isMeridianTime: false
+    };
+
+    var _formats = {
+      date: {
+        MDY: {
+          short: 'MM/DD/YYYY',
+          long: 'LL'
+        },
+        DMY: {
+          short: 'DD/MM/YYYY',
+          long: 'LL'
+        },
+        YMD: {
+          short: 'YYYY-MM-DD',
+          long: 'LL'
+        }
+      },
+      time: {
+        meridian: {
+          short: 'h:mm a',
+          long: 'h:mm:ss a'
+        },
+        h24: {
+          short: 'HH:mm',
+          long: 'HH:mm:ss'
+        }
+      }
     };
 
     var _parseDateTime = function(dateTimeString) {
@@ -16,14 +41,14 @@
         moment.ISO_8601,
         _config.referenceTimezone);
       if (!parsedDateTime.isValid()) {
-        throw 'Bad date format for input "' + dateTimeString + '", expect ISO_8601 format.';
+        throw 'i18n : bad date format for input "' + dateTimeString + '", expect ISO_8601 format.';
       }
 
       var timeZonedDateTime;
-      if (_config.targetOffset !== undefined) {
-        timeZonedDateTime = parsedDateTime.utc().add(_config.targetOffset, 'minutes');
+      if (_config.offset !== undefined) {
+        timeZonedDateTime = parsedDateTime.utc().add(_config.offset, 'minutes');
       } else {
-        timeZonedDateTime = moment.tz(parsedDateTime, _config.targetTimezone);
+        timeZonedDateTime = moment.tz(parsedDateTime, _config.timezone);
       }
 
       return timeZonedDateTime.locale(_config.locale);
@@ -42,32 +67,34 @@
       _config = _mergeConfiguration(_config, config);
     }
 
+    _config.timeFormat = _config.isMeridianTime ? 'meridian' : 'h24';
+
     return {
       formatDateTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
-        var dateFormat = _config.shortDateFormat;
-        var timeFormat = _config.shortTimeFormat;
+        var dateFormat = _formats.date[_config.dateFormat].short;
+        var timeFormat = _formats.time[_config.timeFormat].short;
         if (formatType === this.formats.LONG) {
-          dateFormat = _config.longDateFormat;
-          timeFormat = _config.longTimeFormat;
+          dateFormat = _formats.date[_config.dateFormat].long;
+          timeFormat = _formats.time[_config.timeFormat].long;
         }
 
         return timeZonedDateTime.format(dateFormat + ' ' + timeFormat);
       },
       formatDate: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
-        var dateFormat = _config.shortDateFormat;
+        var dateFormat = _formats.date[_config.dateFormat].short;
         if (formatType === this.formats.LONG) {
-          dateFormat = _config.longDateFormat;
+          dateFormat = _formats.date[_config.dateFormat].long;
         }
 
         return timeZonedDateTime.format(dateFormat);
       },
       formatTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
-        var timeFormat = _config.shortTimeFormat;
+        var timeFormat = _formats.time[_config.timeFormat].short;
         if (formatType === this.formats.LONG) {
-          timeFormat = _config.longTimeFormat;
+          var timeFormat = _formats.time[_config.timeFormat].long;
         }
 
         return timeZonedDateTime.format(timeFormat);
