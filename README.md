@@ -4,12 +4,13 @@
 
 ## Installation
 ``` sh
-npm install js-i18n-library --save
+npm install javascript-i18n-library --save
+```
 
 ## Configuration
 
 The factory accept a config object to override default configuration.
-``` javascript
+``` json
 {
     referenceTimezone: 'Europe/Paris', // timezone used when no timezone is defined on the date to parse 
     targetTimezone: 'Europe/Paris',    // timezone used to format the date
@@ -24,7 +25,7 @@ The factory accept a config object to override default configuration.
 
 ## Usage Node / Browserify
 ``` javascript
-var i18nServiceFactory = require('js-i18n-library');
+var i18nServiceFactory = require('javascript-i18n-library');
 var config = {
     referenceTimezone: 'Europe/Paris',
     targetTimezone: 'Europe/Paris',
