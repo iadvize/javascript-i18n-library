@@ -1,5 +1,5 @@
 (function() {
-  var i18nServiceFactory = function(moment, numbro, config) {
+  var i18nServiceFactory = function(moment, momentTimezone, numbro, config) {
     var _config = {
       referenceTimezone: 'Europe/Paris',
       timezone: 'Europe/Paris',
@@ -36,9 +36,9 @@
     };
 
     var _parseDateTime = function(dateTimeString) {
-      var parsedDateTime = moment.tz(
+      var parsedDateTime = momentTimezone.tz(
         dateTimeString,
-        moment.ISO_8601,
+        moment.ISO_8601(),
         _config.referenceTimezone);
       if (!parsedDateTime.isValid()) {
         throw 'i18n : bad date format for input "' + dateTimeString + '", expect ISO_8601 format.';
@@ -48,10 +48,10 @@
       if (_config.offset !== undefined) {
         timeZonedDateTime = parsedDateTime.utc().add(_config.offset, 'minutes');
       } else {
-        timeZonedDateTime = moment.tz(parsedDateTime, _config.timezone);
+        timeZonedDateTime = momentTimezone.tz(parsedDateTime, _config.timezone);
       }
 
-      return timeZonedDateTime.locale(_config.locale);
+      return moment(timeZonedDateTime).locale(_config.locale);
     };
 
     var _mergeConfiguration = function(baseConfig, overrideConfig) {
@@ -120,10 +120,12 @@
 
   // Node
   if (typeof module !== 'undefined' && module.exports) {
-    var numbro = require("numbro");
-    var moment = require("moment-timezone");
+    var numbro = require('numbro');
+    var momentTimezone = require('moment-timezone');
+    var moment = require('moment/min/moment-with-locales');
     module.exports = function(config) {
-      return i18nServiceFactory(moment, numbro, config);
+      // Pass moment with locales and moment-timezone because moment-timezone is not able to load all locales.
+      return i18nServiceFactory(moment, momentTimezone, numbro, config);
     };
   }
 
@@ -131,7 +133,8 @@
   if (typeof window !== 'undefined') {
     window.iadvize = window.iadvize || {};
     window.iadvize.i18nServiceFactory = function(config) {
-      return i18nServiceFactory(window.moment, window.numbro, config);
+      // Pass global moment twice because moment and moment-timezone are merged on desktop.
+      return i18nServiceFactory(window.moment, window.moment, window.numbro, config);
     };
   }
 })();
