@@ -10,7 +10,7 @@ npm install javascript-i18n-library --save
 ## Configuration
 
 The factory accept a config object to override default configuration.
-``` json
+```js
 {
     referenceTimezone: 'Europe/Paris', // timezone used when no timezone is defined on the date to parse 
     targetTimezone: 'Europe/Paris',    // timezone used to format the date
