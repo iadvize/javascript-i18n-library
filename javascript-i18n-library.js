@@ -35,6 +35,39 @@
       }
     };
 
+    var _mergeConfiguration = function(baseConfig, overrideConfig) {
+      var stampConfig = JSON.parse(JSON.stringify(baseConfig));
+      for (var key in overrideConfig) {
+        stampConfig[key] = overrideConfig[key];
+      }
+
+      return stampConfig;
+    };
+
+    var _parseTimestamp = function(timestamp) {
+      var parsedTimestamp = parseInt(timestamp, 10);
+      if (isNaN(parsedTimestamp)) {
+        throw 'i18n : bad timestamp format for input "' + timestamp + '", expect timestamp format.';
+      }
+      else if (parsedTimestamp.toString().length < 13) {
+        // 13 digits timestamp (9999999999999) == Sat Nov 20 2286,
+        throw 'i18n : bad timestamp format for input "' + timestamp + '", expect a millisecond timestamp.';
+      }
+
+      var parsedDateTime = momentTimezone.tz(
+        parsedTimestamp * 1000,
+        _config.referenceTimezone);
+
+      var timeZonedDateTime;
+      if (_config.offset !== undefined) {
+        timeZonedDateTime = parsedDateTime.utc().add(_config.offset, 'minutes');
+      } else {
+        timeZonedDateTime = momentTimezone.tz(parsedDateTime, _config.timezone);
+      }
+
+      return moment(timeZonedDateTime).locale(_config.locale);
+    };
+
     var _parseDateTime = function(dateTimeString) {
       var parsedDateTime = momentTimezone.tz(
         dateTimeString,
@@ -54,13 +87,32 @@
       return moment(timeZonedDateTime).locale(_config.locale);
     };
 
-    var _mergeConfiguration = function(baseConfig, overrideConfig) {
-      var stampConfig = JSON.parse(JSON.stringify(baseConfig));
-      for (var key in overrideConfig) {
-        stampConfig[key] = overrideConfig[key];
+    var _getTimeAgo = function(dateTime) {
+      var currentDateTime = moment();
+      var timeAgoPayload = {
+        type: '',
+        offset: null
+      };
+
+      if ((timeAgoPayload.offset = currentDateTime.diff(dateTime, 'days')) > 0) {
+        timeAgoPayload.type = 'days';
+      }
+      else if ((timeAgoPayload.offset = currentDateTime.diff(dateTime, 'hours')) > 0) {
+        timeAgoPayload.type = 'hours';
+      }
+      else if ((timeAgoPayload.offset = currentDateTime.diff(dateTime, 'minutes')) > 0) {
+        timeAgoPayload.type = 'minutes';
+      }
+      else {
+        timeAgoPayload.offset = currentDateTime.diff(dateTime, 'seconds');
+        timeAgoPayload.type = 'seconds';
       }
 
-      return stampConfig;
+      if(timeAgoPayload.offset < 0) {
+        throw 'i18n : future date not possible ;)';
+      }
+
+      return timeAgoPayload;
     };
 
     if (!!config) {
@@ -70,6 +122,12 @@
     _config.timeFormat = _config.isMeridianTime ? 'meridian' : 'h24';
 
     return {
+      getTimeAgoFromTimestamp: function(timestamp) {
+        return _getTimeAgo(_parseTimestamp(timestamp));
+      },
+      getTimeAgoFromDateTime: function(dateTimeString) {
+        return _getTimeAgo(_parseDateTime(dateTimeString));
+      },
       formatDateTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _formats.date[_config.dateFormat].short;
