@@ -49,6 +49,10 @@ i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
 i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
 i18nService.formatDateTime(dateToFormat, i18nService.formats.SHORT); // 26/11/1990 23:21
 i18nService.formatDateTime(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990 23:21:00
+
+// TimeAgo
+i18nService.getTimeAgoFromTimestamp(1444227494000 /* millis */)
+i18nService.getTimeAgoFromDateTime(dateToFormat);
 ```
 
 ## Usage Browser
@@ -78,4 +82,8 @@ i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
 i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
 i18nService.formatDateTime(dateToFormat, i18nService.formats.SHORT); // 26/11/1990 23:21
 i18nService.formatDateTime(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990 23:21:00
+
+// TimeAgo
+i18nService.getTimeAgoFromTimestamp(1444227494000 /* millis */)
+i18nService.getTimeAgoFromDateTime(dateToFormat);
 ```
