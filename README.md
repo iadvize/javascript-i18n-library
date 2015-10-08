@@ -7,6 +7,11 @@
 npm install javascript-i18n-library --save
 ```
 
+## Test
+```sh
+npm test
+```
+
 ## Configuration
 
 The factory accept a config object to override default configuration.
