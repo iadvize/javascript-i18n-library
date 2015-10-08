@@ -17,5 +17,13 @@
     "numbro": "1.4.0",
     "moment": "2.10.6",
     "moment-timezone": "0.4.0"
+  },
+  "devDependencies": {
+    "mocha": "2.3.3",
+    "mocha-phantomjs": "4.0.1"
+  },
+  "scripts": {
+    "test": "npm run test-node",
+    "test-node": "mocha -R spec ./test/node/index.js"
   }
 }

@@ -55,7 +55,7 @@
       }
 
       var parsedDateTime = momentTimezone.tz(
-        parsedTimestamp * 1000,
+        parsedTimestamp,
         _config.referenceTimezone);
 
       var timeZonedDateTime;
