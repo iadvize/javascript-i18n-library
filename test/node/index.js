@@ -286,3 +286,18 @@ describe('TimeAgo', function() {
     });
   });
 });
+
+describe('Erroring', function() {
+  describe('Format', function() {
+    it('should throw bad datetime format format error', function() {
+      var throwingFunction = function() {
+        var i18nService = i18nServiceFactory({
+          isMeridianTime: false
+        });
+        i18nService.formatDate('BAD FORMAT');
+      };
+
+      assert.throws(throwingFunction);
+    });
+  });
+});
