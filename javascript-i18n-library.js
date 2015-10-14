@@ -157,15 +157,46 @@
 
         return timeZonedDateTime.format(timeFormat);
       },
+      formatNumber: function(value, decimalCount) {
+        var oldLanguage = numbro.language();
+        numbro.language(_config.locale);
+        if (decimalCount === undefined) {
+          var splittedValue = value.toString().split('.');
+          if(!!splittedValue[1]) {
+            decimalCount = splittedValue[1].length;
+          } else {
+            decimalCount = 0;
+          }
+        }
+
+        var decimalPattern = Array(decimalCount + 1).join('0');
+        var dotSymbol = decimalCount === 0 ? '[.]' : '.';
+        var valueFormated = numbro(value).format('0,0' + dotSymbol + decimalPattern);
+        numbro.language(oldLanguage);
+        return valueFormated;
+      },
+      unformatNumber: function(formattedValue) {
+        var oldLanguage = numbro.language();
+        numbro.language(_config.locale);
+        var rawValue = numbro().unformat(formattedValue);
+        numbro.language(oldLanguage);
+        return rawValue;
+      },
       formatCurrency: function(value, decimalCount) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
         if (decimalCount === undefined) {
-          decimalCount = 2;
+          var splittedValue = value.toString().split('.');
+          if(!!splittedValue[1]) {
+            decimalCount = splittedValue[1].length;
+          } else {
+            decimalCount = 0;
+          }
         }
 
         var decimalPattern = Array(decimalCount + 1).join('0');
-        var valueFormated = numbro(value).formatCurrency('0,0[.]' + decimalPattern);
+        var dotSymbol = decimalCount === 0 ? '[.]' : '.';
+        var valueFormated = numbro(value).formatCurrency('0,0' + dotSymbol + decimalPattern);
         numbro.language(oldLanguage);
         return valueFormated;
       },
@@ -179,6 +210,9 @@
   // Node
   if (typeof module !== 'undefined' && module.exports) {
     var numbro = require('numbro');
+    var numbroLanguageLoader = require('./numbro-language-loader');
+    numbroLanguageLoader(numbro);
+
     var momentTimezone = require('moment-timezone');
     var moment = require('moment/min/moment-with-locales');
     module.exports = function(config) {

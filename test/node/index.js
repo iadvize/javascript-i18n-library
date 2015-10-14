@@ -301,3 +301,63 @@ describe('Erroring', function() {
     });
   });
 });
+
+describe('Number format and unformat', function() {
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        expected: '1 000'
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        expected: '1 000,00',
+        decimalCount: 2
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        expected: '1 000,1234'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        expected: '1,000'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        expected: '1,000.00',
+        decimalCount: 2
+      },
+      {
+        locale: 'en-GB',
+        value: 1000.1234,
+        expected: '1,000.1234'
+      }
+    ];
+
+  scenarios.forEach(function(scenario) {
+    it('should format and unformat ' + scenario.locale + ' number with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals', function() {
+      var i18nService = i18nServiceFactory({
+        locale: scenario.locale
+      });
+      var result = i18nService.formatNumber(scenario.value, scenario['decimalCount']);
+      assert.equal(scenario.expected, result);
+      assert.equal(scenario.value, i18nService.unformatNumber(result));
+    });
+  });
+});
+
+describe('Number string format', function() {
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: '1000',
+        expected: '1 000'
+      }
+    ];
+});
