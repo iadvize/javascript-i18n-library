@@ -346,7 +346,7 @@ describe('Number format and unformat', function() {
       });
       var result = i18nService.formatNumber(scenario.value, scenario['decimalCount']);
       assert.equal(scenario.expected, result);
-      assert.equal(scenario.value, i18nService.unformatNumber(result));
+      assert.equal(scenario.value, i18nService.unformat(result));
     });
   });
 });

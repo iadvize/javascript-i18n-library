@@ -175,13 +175,6 @@
         numbro.language(oldLanguage);
         return valueFormated;
       },
-      unformatNumber: function(formattedValue) {
-        var oldLanguage = numbro.language();
-        numbro.language(_config.locale);
-        var rawValue = numbro().unformat(formattedValue);
-        numbro.language(oldLanguage);
-        return rawValue;
-      },
       formatCurrency: function(value, decimalCount) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
@@ -199,6 +192,13 @@
         var valueFormated = numbro(value).formatCurrency('0,0' + dotSymbol + decimalPattern);
         numbro.language(oldLanguage);
         return valueFormated;
+      },
+      unformat: function(formattedValue) {
+        var oldLanguage = numbro.language();
+        numbro.language(_config.locale);
+        var rawValue = numbro().unformat(formattedValue);
+        numbro.language(oldLanguage);
+        return rawValue;
       },
       formats: {
         SHORT: "SHORT",
