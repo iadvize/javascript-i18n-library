@@ -24,6 +24,6 @@
   },
   "scripts": {
     "test": "npm run test-node",
-    "test-node": "mocha -R spec ./test/node/index.js"
+    "test-node": "./node_modules/mocha/bin/mocha -R spec ./test/node/index.js"
   }
 }
