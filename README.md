@@ -26,7 +26,7 @@ The factory accept a config object to override default configuration.
 }
 ```
 
-## Usage Node / Browserify
+## Configuration Node / Browserify
 ``` javascript
 var i18nServiceFactory = require('javascript-i18n-library');
 var config = {
@@ -38,29 +38,9 @@ var config = {
 };
 
 var i18nService = i18nServiceFactory(config);
-var dateToFormat = "1990-11-26T23:21:00"; // also accepts "1990-11-26 23:21:00" format
-
-// Dates
-i18nService.formatDate(dateToFormat);                            // 26/11/1990
-i18nService.formatDate(dateToFormat, i18nService.formats.SHORT); // 26/11/1990
-i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990
-
-// Time
-i18nService.formatTime(dateToFormat);                            // 23:21
-i18nService.formatTime(dateToFormat, i18nService.formats.SHORT); // 23:21
-i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
-
-// DateTime
-i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
-i18nService.formatDateTime(dateToFormat, i18nService.formats.SHORT); // 26/11/1990 23:21
-i18nService.formatDateTime(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990 23:21:00
-
-// TimeAgo
-i18nService.getTimeAgoFromTimestamp(1444227494000 /* millis */)
-i18nService.getTimeAgoFromDateTime(dateToFormat);
 ```
 
-## Usage Browser
+## Configuration Browser
 ``` javascript
 var config = {
     referenceTimezone: 'Europe/Paris',
@@ -71,6 +51,10 @@ var config = {
 };
 
 var i18nService = window.iadvize.i18nServiceFactory(config);
+```
+
+## Usage 
+```javascript
 var dateToFormat = "1990-11-26T23:21:00"; // also accepts "1990-11-26 23:21:00" format
 
 // Dates
@@ -89,6 +73,18 @@ i18nService.formatDateTime(dateToFormat, i18nService.formats.SHORT); // 26/11/19
 i18nService.formatDateTime(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990 23:21:00
 
 // TimeAgo
-i18nService.getTimeAgoFromTimestamp(1444227494000 /* millis */)
+i18nService.getTimeAgoFromTimestamp(1444227494000 /* millis */);
 i18nService.getTimeAgoFromDateTime(dateToFormat);
+
+// Format numbers
+i18nService.formatNumber(1000); // '1 000'
+i18nService.unformat('1 000'); // 1000
+
+i18nService.formatNumber(1000.1234); // '1 000,1234'
+i18nService.formatNumber(1000.1234, 0); // '1 000'
+i18nService.formatNumber(1000.1234, 1); // '1 000,1'
+
+// Format currency
+i18nService.formatCurrency(1000); // '1 000€'
+i18nService.unformat('1 000€'); // 1000
 ```
