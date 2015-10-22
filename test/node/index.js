@@ -361,3 +361,59 @@ describe('Number string format', function() {
       }
     ];
 });
+
+describe('Currency format and unformat', function() {
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        currency: 'EUR',
+        expected: '1 000€'
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        currency: 'EUR',
+        expected: '1 000,00€',
+        decimalCount: 2
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        currency: 'USD',
+        expected: '$1 000,1234'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'CHF',
+        expected: '1,000CHF'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'GBP',
+        expected: '£1,000.00',
+        decimalCount: 2
+      },
+      {
+        locale: 'en-GB',
+        currency: 'USD',
+        value: 1000.1234,
+        expected: '$1,000.1234'
+      }
+    ];
+
+  scenarios.forEach(function(scenario) {
+    it('should format and unformat ' + scenario.locale + ' currency with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals and currency ' + scenario['currency'], function() {
+      var i18nService = i18nServiceFactory({
+        locale: scenario.locale,
+        currency: scenario.currency
+      });
+      var result = i18nService.formatCurrency(scenario.value, scenario['decimalCount']);
+      assert.equal(scenario.expected, result);
+      assert.equal(scenario.value, i18nService.unformat(result));
+    });
+  });
+});

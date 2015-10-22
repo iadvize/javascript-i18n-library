@@ -21,6 +21,7 @@ The factory accept a config object to override default configuration.
     timezone: 'Europe/Paris',          // timezone used to format the date
     offset: 120,                       // override the targetTimezone, add this offset (in minutes) to the parsed date
     locale: 'fr-FR',                   // locale used to format numbers, currencies and long date format
+    currency: 'EUR',                   // the currency to use when formatting currencies values
     dateFormat: 'DMY',                 // generic format date (DMY, MDY or YMD)
     isMeridianTime: false              // format the time in meridian time or 24 hours time
 }
@@ -33,6 +34,7 @@ var config = {
     referenceTimezone: 'Europe/Paris',
     timezone: 'Europe/Paris',
     locale: 'fr-FR',
+    currency: 'EUR',
     dateFormat: 'DMY',
     isMeridianTime: false
 };
@@ -46,6 +48,7 @@ var config = {
     referenceTimezone: 'Europe/Paris',
     timezone: 'Europe/Paris',
     locale: 'fr-FR',
+    currency: 'EUR',
     dateFormat: 'DMY',
     isMeridianTime: false
 };
