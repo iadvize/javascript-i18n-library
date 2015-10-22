@@ -382,13 +382,13 @@ describe('Currency format and unformat', function() {
         locale: 'fr-FR',
         value: 1000.1234,
         currency: 'USD',
-        expected: '$1 000,1234'
+        expected: '1 000,1234$'
       },
       {
         locale: 'en-GB',
         value: 1000,
         currency: 'CHF',
-        expected: '1,000CHF'
+        expected: 'CHF1,000'
       },
       {
         locale: 'en-GB',

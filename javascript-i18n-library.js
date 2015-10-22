@@ -4,6 +4,7 @@
       referenceTimezone: 'Europe/Paris',
       timezone: 'Europe/Paris',
       locale: 'fr-FR',
+      currency: 'EUR',
       dateFormat: 'DMY',
       isMeridianTime: false
     };
@@ -115,11 +116,27 @@
       return timeAgoPayload;
     };
 
+    var _currencyISOToCurrencySymbol = function(currency) {
+      switch(currency) {
+        case 'EUR':
+          return '€';
+        case 'USD':
+          return '$';
+        case 'GBP':
+          return '£';
+        case 'CHF':
+          return 'CHF';
+        default:
+          return 'NO CURRENCY';
+      }
+    };
+
     if (!!config) {
       _config = _mergeConfiguration(_config, config);
     }
 
     _config.timeFormat = _config.isMeridianTime ? 'meridian' : 'h24';
+    _config.currencySymbol = _currencyISOToCurrencySymbol(_config.currency);
 
     return {
       getTimeAgoFromTimestamp: function(timestamp) {
@@ -190,6 +207,8 @@
         var decimalPattern = Array(decimalCount + 1).join('0');
         var dotSymbol = decimalCount === 0 ? '[.]' : '.';
         var valueFormated = numbro(value).formatCurrency('0,0' + dotSymbol + decimalPattern);
+        var currentCurrencySymbol = numbro.languages()[_config.locale].currency.symbol;
+        valueFormated = valueFormated.replace(currentCurrencySymbol, _config.currencySymbol);
         numbro.language(oldLanguage);
         return valueFormated;
       },
