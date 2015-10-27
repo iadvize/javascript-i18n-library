@@ -145,6 +145,12 @@
       getTimeAgoFromDateTime: function(dateTimeString) {
         return _getTimeAgo(_parseDateTime(dateTimeString));
       },
+      formatTimeAgoFromDateTime: function(dateTimeString) {
+        return _parseDateTime(dateTimeString).fromNow();
+      },
+      formatTimeAgoFromTimestamp: function(timestamp) {
+        return _parseTimestamp(timestamp).fromNow();
+      },
       formatDateTime: function(dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _formats.date[_config.dateFormat].short;

@@ -285,6 +285,102 @@ describe('TimeAgo', function() {
       assert.equal(expected, JSON.stringify(result));
     });
   });
+  describe('Format', function() {
+    var scenarios = [{
+      substract: 1000,
+      expect: 'il y a quelques secondes',
+      locale: 'fr-FR'
+    },{
+      substract: 60000,
+      expect: 'il y a une minute',
+      locale: 'fr-FR'
+    },{
+      substract: 300000,
+      expect: 'il y a 5 minutes',
+      locale: 'fr-FR'
+    },{
+      substract: 3600000,
+      expect: 'il y a une heure',
+      locale: 'fr-FR'
+    },{
+      substract: 3600000 * 3,
+      expect: 'il y a 3 heures',
+      locale: 'fr-FR'
+    },{
+      substract: 3600000 * 24,
+      expect: 'il y a un jour',
+      locale: 'fr-FR'
+    },{
+      substract: 3600000 * 24 * 32,
+      expect: 'il y a un mois',
+      locale: 'fr-FR'
+    },{
+      substract: 1000,
+      expect: 'a few seconds ago',
+      locale: 'en-GB'
+    },{
+      substract: 60000,
+      expect: 'a minute ago',
+      locale: 'en-GB'
+    },{
+      substract: 300000,
+      expect: '5 minutes ago',
+      locale: 'en-GB'
+    },{
+      substract: 3600000,
+      expect: 'an hour ago',
+      locale: 'en-GB'
+    },{
+      substract: 3600000 * 3,
+      expect: '3 hours ago',
+      locale: 'en-GB'
+    },{
+      substract: 3600000 * 24,
+      expect: 'a day ago',
+      locale: 'en-GB'
+    },{
+      substract: 3600000 * 24 * 32,
+      expect: 'a month ago',
+      locale: 'en-GB'
+    }];
+
+    var createTest = function(scenario, testFunction) {
+      return function() {
+        it('should return "' + scenario.expect + '" for locale ' + scenario.locale, function() {
+          var i18nService = i18nServiceFactory({
+            locale: scenario.locale
+          });
+          var now = new Date();
+          var datetime = new Date(now.getTime() - scenario.substract); // substract 1 second
+          var result = testFunction(datetime, i18nService);
+          assert.equal(result, scenario.expect);
+        });
+      };
+    };
+
+    var testFunctions = scenarios.map(function(scenario) {
+      return {
+        dateTime: createTest(scenario, function(dateTime, i18nService) {
+          var dateFormatted = moment(dateTime).format();
+          return i18nService.formatTimeAgoFromDateTime(dateFormatted);
+        }),
+        timestamp: createTest(scenario, function(dateTime, i18nService) {
+          return i18nService.formatTimeAgoFromTimestamp(dateTime.getTime());
+        })
+      };
+    });
+
+    describe('DateTime', function() {
+      testFunctions.forEach(function(testFunction) {
+        testFunction.dateTime();
+      });
+    });
+    describe('TimeStamp', function() {
+      testFunctions.forEach(function(testFunction) {
+        testFunction.timestamp();
+      });
+    });
+  });
 });
 
 describe('Erroring', function() {
