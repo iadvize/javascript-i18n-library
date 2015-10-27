@@ -1,4 +1,4 @@
-# js-i18n-library
+# javascript-i18n-library [![Circle CI](https://circleci.com/gh/iadvize/javascript-i18n-library.svg?style=svg)](https://circleci.com/gh/iadvize/javascript-i18n-library) [![npm version](https://badge.fury.io/js/javascript-i18n-library.svg)](https://badge.fury.io/js/javascript-i18n-library)
 
 > This javascript library is used to format dates, numbers and currencies. It's compatible with Node and Browsers. It depends on Moment.JS and Numbro.JS
 
