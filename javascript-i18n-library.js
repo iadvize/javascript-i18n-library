@@ -127,7 +127,7 @@
         case 'CHF':
           return 'CHF';
         default:
-          return 'NO CURRENCY';
+          return '¤';
       }
     };
 
