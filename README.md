@@ -89,6 +89,7 @@ i18nService.formatNumber(1000.1234, 1); // '1 000,1'
 
 // Format currency
 i18nService.formatCurrency(1000); // '1 000€'
+i18nService.formatCurrency(1000, undefined, '$'), // 1 000$
 i18nService.unformat('1 000€'); // 1000
 
 // Format TimeAgo

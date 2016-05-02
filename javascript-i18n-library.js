@@ -198,7 +198,7 @@
         numbro.language(oldLanguage);
         return valueFormated;
       },
-      formatCurrency: function(value, decimalCount) {
+      formatCurrency: function(value, decimalCount, forcedCurrencySymbol) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
         if (decimalCount === undefined) {
@@ -214,7 +214,7 @@
         var dotSymbol = decimalCount === 0 ? '[.]' : '.';
         var valueFormated = numbro(value).formatCurrency('0,0' + dotSymbol + decimalPattern);
         var currentCurrencySymbol = numbro.languages()[_config.locale].currency.symbol;
-        valueFormated = valueFormated.replace(currentCurrencySymbol, _config.currencySymbol);
+        valueFormated = valueFormated.replace(currentCurrencySymbol, forcedCurrencySymbol ? forcedCurrencySymbol : _config.currencySymbol);
         numbro.language(oldLanguage);
         return valueFormated;
       },

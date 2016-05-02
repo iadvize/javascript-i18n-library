@@ -513,3 +513,39 @@ describe('Currency format and unformat', function() {
     });
   });
 });
+
+describe('Currency format with forced currency', function() {
+  var forcedCurrencySymbol = 'US$';
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        currency: 'EUR',
+        expected: '1 000' + forcedCurrencySymbol
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        currency: 'USD',
+        expected: '1 000,1234' + forcedCurrencySymbol
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'CHF',
+        expected: forcedCurrencySymbol + '1,000'
+      }
+    ];
+
+  scenarios.forEach(function(scenario) {
+    it('should format with the forced currency ' + forcedCurrencySymbol, function() {
+      var i18nService = i18nServiceFactory({
+        locale: scenario.locale,
+        currency: scenario.currency
+      });
+      var result = i18nService.formatCurrency(scenario.value, scenario['decimalCount'], forcedCurrencySymbol);
+      assert.equal(scenario.expected, result);
+    });
+  });
+});
