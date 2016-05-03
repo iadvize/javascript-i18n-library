@@ -478,7 +478,7 @@ describe('Currency format and unformat', function() {
         locale: 'fr-FR',
         value: 1000.1234,
         currency: 'USD',
-        expected: '1 000,1234$'
+        expected: '1 000,1234$US'
       },
       {
         locale: 'en-GB',
@@ -510,6 +510,101 @@ describe('Currency format and unformat', function() {
       var result = i18nService.formatCurrency(scenario.value, scenario['decimalCount']);
       assert.equal(scenario.expected, result);
       assert.equal(scenario.value, i18nService.unformat(result));
+    });
+  });
+});
+
+describe('Currency format with forced currency', function() {
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        currency: 'EUR',
+        forcedCurrency: 'USD',
+        expected: '1 000$US'
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        currency: 'USD',
+        forcedCurrency: 'USD',
+        expected: '1 000,1234$US'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'CHF',
+        forcedCurrency: 'USD',
+        expected: '$1,000'
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'CHF',
+        forcedCurrency: 'UNKNOWN',
+        expected: '¤1,000'
+      }
+
+    ];
+
+  scenarios.forEach(function(scenario) {
+    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency, function() {
+      var i18nService = i18nServiceFactory({
+        locale: scenario.locale,
+        currency: scenario.currency
+      });
+      var result = i18nService.formatCurrency(scenario.value, scenario.forcedCurrency);
+      assert.equal(scenario.expected, result);
+    });
+  });
+});
+
+describe('Currency format with forced currency and decimal count', function() {
+  var scenarios =
+    [
+      {
+        locale: 'fr-FR',
+        value: 1000,
+        currency: 'EUR',
+        forcedCurrency: 'USD',
+        expected: '1 000$US',
+        decimalCount: undefined
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        currency: 'USD',
+        forcedCurrency: 'USD',
+        expected: '1 000,12$US',
+        decimalCount: 2
+      },
+      {
+        locale: 'fr-FR',
+        value: 1000.1234,
+        currency: 'USD',
+        forcedCurrency: 'USD',
+        expected: '1 000$US',
+        decimalCount: 0
+      },
+      {
+        locale: 'en-GB',
+        value: 1000,
+        currency: 'CHF',
+        forcedCurrency: 'USD',
+        expected: '$1,000',
+        decimalCount: null
+      }
+    ];
+
+  scenarios.forEach(function(scenario) {
+    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency + ' and ' + scenario.decimalCount + ' decimals', function() {
+      var i18nService = i18nServiceFactory({
+        locale: scenario.locale,
+        currency: scenario.currency
+      });
+      var result = i18nService.formatCurrency(scenario.value, scenario.decimalCount, scenario.forcedCurrency);
+      assert.equal(scenario.expected, result);
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "javascript-i18n-library",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "This javascript library is used to format dates, numbers and currencies. It's compatible with Node and Browsers.",
   "main": "javascript-i18n-library.js",
   "repository": {
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "test": "npm run test-node",
-    "test-node": "./node_modules/mocha/bin/mocha -R spec ./test/node/index.js"
+    "test-node": "./node_modules/mocha/bin/mocha -R spec ./test/node/index.js",
+    "watch-test": "./node_modules/mocha/bin/mocha -w -R spec ./test/node/index.js"
   }
 }

@@ -116,19 +116,47 @@
       return timeAgoPayload;
     };
 
-    var _currencyISOToCurrencySymbol = function(currency) {
-      switch(currency) {
-        case 'EUR':
-          return '€';
-        case 'USD':
-          return '$';
-        case 'GBP':
-          return '£';
-        case 'CHF':
-          return 'CHF';
-        default:
-          return 'NO CURRENCY';
+    var _currencyISOToCurrencySymbol = function(currency, locale) {
+      var currencies = {
+        "AUD": {"default": "AU$", "fr-FR": "$AU"},
+        "BGN": {"default": "BGN", "it-IT": "Lv"},
+        "BRL": {"default": "BR$"},
+        "CAD": {"default": "CA$", "fr-FR": "$CA"},
+        "CHF": {"default": "CHF"},
+        "CNY": {"default": "CN¥", "fr-FR": "Ұ", "ja-JP": "元", "zh-TW": "￥"},
+        "CZK": {"default": "CZK"},
+        "DKK": {"default": "DKK", "fr-FR": "krD"},
+        "EUR": {"default": "€"},
+        "GBP": {"default": "£", "fr-FR": "£UK"},
+        "HKD": {"default": "HK$", "fr-FR": "$HK"},
+        "HRK": {"default": "HRK"},
+        "HUF": {"default": "HUF"},
+        "IDR": {"default": "IDR"},
+        "ILS": {"default": "₪"},
+        "INR": {"default": "₹"},
+        "JPY": {"default": "JP¥", "fr-FR": "¥JP", "en-GB": "¥", "de-DE": "¥", "ja-JP": "￥"},
+        "KRW": {"default": "₩", "ja-JP": "￦", "zh-TW": "￦"},
+        "MXN": {"default": "MX$"},
+        "MYR": {"default": "MYR"},
+        "NOK": {"default": "NOK", "fr-FR": "krN", "sv-SE": "NKr"},
+        "NZD": {"default": "NZ$", "fr-FR": "$NZ"},
+        "PHP": {"default": "PHP"},
+        "PLN": {"default": "PLN"},
+        "RON": {"default": "RON", "it-IT": "L"},
+        "RUB": {"default": "RUB"},
+        "SEK": {"default": "SEK", "fr-FR": "krS", "sv-SE": "kr"},
+        "SGD": {"default": "SGD", "fr-FR": "$SG"},
+        "THB": {"default": "฿"},
+        "TRY": {"default": "TRY"},
+        "USD": {"default": "US$", "en-US": "$", "fr-FR": "$US", "en-GB": "$", "de-DE": "$", "ja-JP": "$", "zh-TW": "$"},
+        "ZAR": {"default": "ZAR"}
+      };
+
+      if (currencies[currency]) {
+        return currencies[currency][locale] || currencies[currency]['default'];
       }
+
+      return '¤';
     };
 
     if (!!config) {
@@ -136,7 +164,7 @@
     }
 
     _config.timeFormat = _config.isMeridianTime ? 'meridian' : 'h24';
-    _config.currencySymbol = _currencyISOToCurrencySymbol(_config.currency);
+    _config.currencySymbol = _currencyISOToCurrencySymbol(_config.currency, _config.locale);
 
     return {
       getTimeAgoFromTimestamp: function(timestamp) {
@@ -198,9 +226,15 @@
         numbro.language(oldLanguage);
         return valueFormated;
       },
-      formatCurrency: function(value, decimalCount) {
+      formatCurrency: function(value, decimalCount, forcedCurrency) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
+
+        if (typeof decimalCount === 'string') {
+          forcedCurrency = decimalCount;
+          decimalCount = undefined;
+        }
+
         if (decimalCount === undefined) {
           var splittedValue = value.toString().split('.');
           if(!!splittedValue[1]) {
@@ -214,7 +248,8 @@
         var dotSymbol = decimalCount === 0 ? '[.]' : '.';
         var valueFormated = numbro(value).formatCurrency('0,0' + dotSymbol + decimalPattern);
         var currentCurrencySymbol = numbro.languages()[_config.locale].currency.symbol;
-        valueFormated = valueFormated.replace(currentCurrencySymbol, _config.currencySymbol);
+        var currencySymbol = forcedCurrency ? _currencyISOToCurrencySymbol(forcedCurrency, _config.locale) : _config.currencySymbol;
+        valueFormated = valueFormated.replace(currentCurrencySymbol, currencySymbol);
         numbro.language(oldLanguage);
         return valueFormated;
       },
