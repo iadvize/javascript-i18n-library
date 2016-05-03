@@ -12,6 +12,11 @@ npm install javascript-i18n-library --save
 npm test
 ```
 
+To automatically launch the tests when a file is changed :
+```sh
+npm run-script watch-test
+```
+
 ## Configuration
 
 The factory accept a config object to override default configuration.
