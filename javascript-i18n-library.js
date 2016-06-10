@@ -263,7 +263,10 @@
       formats: {
         SHORT: "SHORT",
         LONG: "LONG"
-      }
+      },
+      moment: moment,
+      momentTimezone: momentTimezone,
+      numbro: numbro
     };
   };
 

@@ -608,3 +608,26 @@ describe('Currency format with forced currency and decimal count', function() {
     });
   });
 });
+
+describe('Exposes moment', function() {
+  it('should exposes moment library', function() {
+    var i18nService = i18nServiceFactory();
+    assert.notEqual(undefined, i18nService.moment);
+  });
+});
+
+
+describe('Exposes momentTimezone', function() {
+  it('should exposes moment library', function() {
+    var i18nService = i18nServiceFactory();
+    assert.notEqual(undefined, i18nService.momentTimezone);
+  });
+});
+
+
+describe('Exposes numbro', function() {
+  it('should exposes numbro library', function() {
+    var i18nService = i18nServiceFactory();
+    assert.notEqual(undefined, i18nService.numbro);
+  });
+});
