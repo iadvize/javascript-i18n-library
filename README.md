@@ -101,4 +101,9 @@ i18nService.unformat('1 000€'); // 1000
 // Format TimeAgo
 i18nService.formatTimeAgoFromDateTime(dateToFormat); // il y a quelques secondes
 i18nService.formatTimeAgoFromTimestamp(1444227494000 /* millis */); // il y a quelques secondes
+
+// Libs exposition
+i18nService.moment;
+i18nService.momentTimezone;
+i18nService.numbro;
 ```
