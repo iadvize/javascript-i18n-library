@@ -631,3 +631,10 @@ describe('Exposes numbro', function() {
     assert.notEqual(undefined, i18nService.numbro);
   });
 });
+
+describe('Exposes libPhoneNumber', function() {
+  it('should exposes libPhoneNumber library', function() {
+    var i18nService = i18nServiceFactory();
+    assert.notEqual(undefined, i18nService.libPhoneNumber);
+  });
+});
