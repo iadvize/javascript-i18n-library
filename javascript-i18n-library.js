@@ -118,38 +118,38 @@
 
     var _currencyISOToCurrencySymbol = function(currency, locale) {
       var currencies = {
-        "AUD": {"default": "AU$", "fr-FR": "$AU"},
-        "BGN": {"default": "BGN", "it-IT": "Lv"},
-        "BRL": {"default": "BR$"},
-        "CAD": {"default": "CA$", "fr-FR": "$CA"},
-        "CHF": {"default": "CHF"},
-        "CNY": {"default": "CN¥", "fr-FR": "Ұ", "ja-JP": "元", "zh-TW": "￥"},
-        "CZK": {"default": "CZK"},
-        "DKK": {"default": "DKK", "fr-FR": "krD"},
-        "EUR": {"default": "€"},
-        "GBP": {"default": "£", "fr-FR": "£UK"},
-        "HKD": {"default": "HK$", "fr-FR": "$HK"},
-        "HRK": {"default": "HRK"},
-        "HUF": {"default": "HUF"},
-        "IDR": {"default": "IDR"},
-        "ILS": {"default": "₪"},
-        "INR": {"default": "₹"},
-        "JPY": {"default": "JP¥", "fr-FR": "¥JP", "en-GB": "¥", "de-DE": "¥", "ja-JP": "￥"},
-        "KRW": {"default": "₩", "ja-JP": "￦", "zh-TW": "￦"},
-        "MXN": {"default": "MX$"},
-        "MYR": {"default": "MYR"},
-        "NOK": {"default": "NOK", "fr-FR": "krN", "sv-SE": "NKr"},
-        "NZD": {"default": "NZ$", "fr-FR": "$NZ"},
-        "PHP": {"default": "PHP"},
-        "PLN": {"default": "PLN"},
-        "RON": {"default": "RON", "it-IT": "L"},
-        "RUB": {"default": "RUB"},
-        "SEK": {"default": "SEK", "fr-FR": "krS", "sv-SE": "kr"},
-        "SGD": {"default": "SGD", "fr-FR": "$SG"},
-        "THB": {"default": "฿"},
-        "TRY": {"default": "TRY"},
-        "USD": {"default": "US$", "en-US": "$", "fr-FR": "$US", "en-GB": "$", "de-DE": "$", "ja-JP": "$", "zh-TW": "$"},
-        "ZAR": {"default": "ZAR"}
+        AUD: {default: "AU$", "en-AU": "$"},
+        BGN: {default: "лв"},
+        BRL: {default: "BR$"},
+        CAD: {default: "CA$", "en-CA": "$"},
+        CHF: {default: "CHF"},
+        CNY: {default: "CN¥", "zh-CN": "Ұ", "zh-HK": "元", "zh-TW": "￥"},
+        CZK: {default: "CZK"},
+        DKK: {default: "DKK", "da-DA": "kr"},
+        EUR: {default: "€"},
+        GBP: {default: "£UK", "en-GB": "£"},
+        HKD: {default: "HK$", "zh-HK": "$"},
+        HRK: {default: "HRK"},
+        HUF: {default: "HUF"},
+        IDR: {default: "IDR"},
+        ILS: {default: "₪"},
+        INR: {default: "₹"},
+        JPY: {default: "JP¥", "ja-JP": "¥"},
+        KRW: {default: "₩"},
+        MXN: {default: "MX$"},
+        MYR: {default: "MYR"},
+        NOK: {default: "NOK", "sv-SE": "kr"},
+        NZD: {default: "NZ$", "en-NZ": "$"},
+        PHP: {default: "PHP"},
+        PLN: {default: "PLN"},
+        RON: {default: "ROL", "ro-RO": "lei"},
+        RUB: {default: "RUB"},
+        SEK: {default: "SEK", "sv-SE": "kr"},
+        SGD: {default: "S$"},
+        THB: {default: "฿"},
+        TRY: {default: "TRY"},
+        USD: {default: "US$", "en-US": "$"},
+        ZAR: {default: "ZAR"}
       };
 
       if (currencies[currency]) {
@@ -203,7 +203,7 @@
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var timeFormat = _formats.time[_config.timeFormat].short;
         if (formatType === this.formats.LONG) {
-          var timeFormat = _formats.time[_config.timeFormat].long;
+            timeFormat = _formats.time[_config.timeFormat].long;
         }
 
         return timeZonedDateTime.format(timeFormat);
