@@ -478,7 +478,7 @@ describe('Currency format and unformat', function() {
         locale: 'fr-FR',
         value: 1000.1234,
         currency: 'USD',
-        expected: '1 000,1234$US'
+        expected: '1 000,1234US$'
       },
       {
         locale: 'en-GB',
@@ -497,7 +497,7 @@ describe('Currency format and unformat', function() {
         locale: 'en-GB',
         currency: 'USD',
         value: 1000.1234,
-        expected: '$1,000.1234'
+        expected: 'US$1,000.1234'
       }
     ];
 
@@ -522,21 +522,21 @@ describe('Currency format with forced currency', function() {
         value: 1000,
         currency: 'EUR',
         forcedCurrency: 'USD',
-        expected: '1 000$US'
+        expected: '1 000US$'
       },
       {
         locale: 'fr-FR',
         value: 1000.1234,
         currency: 'USD',
         forcedCurrency: 'USD',
-        expected: '1 000,1234$US'
+        expected: '1 000,1234US$'
       },
       {
         locale: 'en-GB',
         value: 1000,
         currency: 'CHF',
         forcedCurrency: 'USD',
-        expected: '$1,000'
+        expected: 'US$1,000'
       },
       {
         locale: 'en-GB',
@@ -568,7 +568,7 @@ describe('Currency format with forced currency and decimal count', function() {
         value: 1000,
         currency: 'EUR',
         forcedCurrency: 'USD',
-        expected: '1 000$US',
+        expected: '1 000US$',
         decimalCount: undefined
       },
       {
@@ -576,7 +576,7 @@ describe('Currency format with forced currency and decimal count', function() {
         value: 1000.1234,
         currency: 'USD',
         forcedCurrency: 'USD',
-        expected: '1 000,12$US',
+        expected: '1 000,12US$',
         decimalCount: 2
       },
       {
@@ -584,7 +584,7 @@ describe('Currency format with forced currency and decimal count', function() {
         value: 1000.1234,
         currency: 'USD',
         forcedCurrency: 'USD',
-        expected: '1 000$US',
+        expected: '1 000US$',
         decimalCount: 0
       },
       {
@@ -592,7 +592,7 @@ describe('Currency format with forced currency and decimal count', function() {
         value: 1000,
         currency: 'CHF',
         forcedCurrency: 'USD',
-        expected: '$1,000',
+        expected: 'US$1,000',
         decimalCount: null
       }
     ];
