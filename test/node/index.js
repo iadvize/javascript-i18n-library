@@ -2,20 +2,20 @@ var assert = require('assert');
 var i18nServiceFactory = require('../../javascript-i18n-library');
 var moment = require('moment');
 
-describe('Date format', function() {
-  it('should format short date DMY', function() {
+describe('Date format', function () {
+  it('should format short date DMY', function () {
     var i18nService = i18nServiceFactory({
       dateFormat: 'DMY'
     });
     assert.equal('31/12/2015', i18nService.formatDate('2015-12-31T10:11:12'));
   });
-  it('should format date MDY', function() {
+  it('should format short date MDY', function () {
     var i18nService = i18nServiceFactory({
       dateFormat: 'MDY'
     });
     assert.equal('12/31/2015', i18nService.formatDate('2015-12-31T10:11:12'));
   });
-  it('should format date DMY', function() {
+  it('should format short date DMY', function () {
     var i18nService = i18nServiceFactory({
       dateFormat: 'YMD'
     });
@@ -25,55 +25,93 @@ describe('Date format', function() {
     [
       {
         name: 'fr-FR',
-        value: '31 décembre 2015'
+        valueLong: '31 décembre 2015',
+        valueMedium: '31/12/2015',
+        valueShort: '31/12/2015',
       },
       {
         name: 'en-US',
-        value: 'December 31, 2015'
+        valueLong: 'December 31, 2015',
+        valueMedium: '31/12/2015',
+        valueShort: '31/12/2015',
       }
     ];
-  locales.forEach(function(locale) {
-    it('should format long date for ' + locale.name + ' locale', function() {
+  locales.forEach(function (locale) {
+    it('should format short date for ' + locale.name + ' locale', function () {
       var i18nService = i18nServiceFactory({
         locale: locale.name
       });
-      assert.equal(locale.value, i18nService.formatDate('2015-12-31T10:11:12', i18nService.formats.LONG));
+      assert.equal(i18nService.formatDate('2015-12-31T10:11:12'), locale.valueShort);
+      assert.equal(i18nService.formatDate('2015-12-31T10:11:12', i18nService.formats.SHORT), locale.valueShort);
+    });
+    it('should format medium date for ' + locale.name + ' locale', function () {
+      var i18nService = i18nServiceFactory({
+        locale: locale.name
+      });
+      assert.equal(i18nService.formatDate('2015-12-31T10:11:12', i18nService.formats.MEDIUM), locale.valueMedium);
+    });
+    it('should format long date for ' + locale.name + ' locale', function () {
+      var i18nService = i18nServiceFactory({
+        locale: locale.name
+      });
+      assert.equal(i18nService.formatDate('2015-12-31T10:11:12', i18nService.formats.LONG), locale.valueLong);
     });
   });
 });
 
-describe('Time format', function() {
-  it('should format short time h24', function() {
+describe('Time format', function () {
+  it('should format short time h24', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: false
     });
     assert.equal('10:11', i18nService.formatTime('2015-12-31T10:11:12'));
+    assert.equal('10:11', i18nService.formatTime('2015-12-31T10:11:12', i18nService.formats.SHORT));
   });
-  it('should format long time h24', function() {
+  it('should format medium time h24', function () {
+    var i18nService = i18nServiceFactory({
+      isMeridianTime: false
+    });
+    assert.equal('10:11:12', i18nService.formatTime('2015-12-31T10:11:12', i18nService.formats.MEDIUM));
+  });
+  it('should format long time h24', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: false
     });
     assert.equal('10:11:12', i18nService.formatTime('2015-12-31T10:11:12', i18nService.formats.LONG));
   });
-  it('should format short time meridian am', function() {
+  it('should format short time meridian am', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: true
     });
     assert.equal('6:11 am', i18nService.formatTime('2015-12-31T06:11:12'));
+    assert.equal('6:11 am', i18nService.formatTime('2015-12-31T06:11:12', i18nService.formats.SHORT));
   });
-  it('should format long time meridian am', function() {
+  it('should format medium time meridian am', function () {
+    var i18nService = i18nServiceFactory({
+      isMeridianTime: true
+    });
+    assert.equal('6:11:12 am', i18nService.formatTime('2015-12-31T06:11:12', i18nService.formats.MEDIUM));
+  });
+  it('should format long time meridian am', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: true
     });
     assert.equal('6:11:12 am', i18nService.formatTime('2015-12-31T06:11:12', i18nService.formats.LONG));
   });
-  it('should format short time meridian pm', function() {
+  it('should format short time meridian pm', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: true
     });
     assert.equal('2:11 pm', i18nService.formatTime('2015-12-31T14:11:12'));
+    assert.equal('2:11 pm', i18nService.formatTime('2015-12-31T14:11:12', i18nService.formats.SHORT));
   });
-  it('should format long time meridian pm', function() {
+  it('should format medium time meridian pm', function () {
+    var i18nService = i18nServiceFactory({
+      isMeridianTime: true
+    });
+    assert.equal('2:11:12 pm', i18nService.formatTime('2015-12-31T14:11:12', i18nService.formats.MEDIUM));
+  });
+  it('should format long time meridian pm', function () {
     var i18nService = i18nServiceFactory({
       isMeridianTime: true
     });
@@ -82,7 +120,7 @@ describe('Time format', function() {
 });
 
 
-describe('DateTime format', function() {
+describe('DateTime format', function () {
   var i18nServiceScenario = i18nServiceFactory();
   var scenarios =
     [
@@ -93,6 +131,14 @@ describe('DateTime format', function() {
         expected: '31 décembre 2015 10:11:12',
         isMeridianTime: false,
         size: i18nServiceScenario.formats.LONG
+      },
+      {
+        locale: 'fr-FR',
+        format: 'DMY',
+        value: '2015-12-31T10:11:12',
+        expected: '31/12/2015 10:11:12',
+        isMeridianTime: false,
+        size: i18nServiceScenario.formats.MEDIUM
       },
       {
         locale: 'fr-FR',
@@ -117,6 +163,14 @@ describe('DateTime format', function() {
         expected: '2015-12-31 10:11',
         isMeridianTime: false,
         size: i18nServiceScenario.formats.SHORT
+      },
+      {
+        locale: 'fr-FR',
+        format: 'YMD',
+        value: '2015-12-31T10:11:12',
+        expected: '2015-12-31 10:11:12',
+        isMeridianTime: false,
+        size: i18nServiceScenario.formats.MEDIUM
       },
       {
         locale: 'en-US',
@@ -144,11 +198,27 @@ describe('DateTime format', function() {
       },
       {
         locale: 'en-US',
+        format: 'DMY',
+        value: '2015-12-31T14:11:12',
+        expected: '31/12/2015 2:11:12 pm',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
+      },
+      {
+        locale: 'en-US',
         format: 'MDY',
         value: '2015-12-31T14:11:12',
         expected: '12/31/2015 2:11 pm',
         isMeridianTime: true,
         size: i18nServiceScenario.formats.SHORT
+      },
+      {
+        locale: 'en-US',
+        format: 'MDY',
+        value: '2015-12-31T14:11:12',
+        expected: '12/31/2015 2:11:12 pm',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
       },
       {
         locale: 'en-US',
@@ -160,11 +230,27 @@ describe('DateTime format', function() {
       },
       {
         locale: 'en-US',
+        format: 'YMD',
+        value: '2015-12-31T14:11:12',
+        expected: '2015-12-31 2:11:12 pm',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
+      },
+      {
+        locale: 'en-US',
         format: 'DMY',
         value: '2015-12-31T02:11:12',
         expected: '31/12/2015 2:11 am',
         isMeridianTime: true,
         size: i18nServiceScenario.formats.SHORT
+      },
+      {
+        locale: 'en-US',
+        format: 'DMY',
+        value: '2015-12-31T02:11:12',
+        expected: '31/12/2015 2:11:12 am',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
       },
       {
         locale: 'en-US',
@@ -176,19 +262,35 @@ describe('DateTime format', function() {
       },
       {
         locale: 'en-US',
+        format: 'MDY',
+        value: '2015-12-31T02:11:12',
+        expected: '12/31/2015 2:11:12 am',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
+      },
+      {
+        locale: 'en-US',
         format: 'YMD',
         value: '2015-12-31T02:11:12',
         expected: '2015-12-31 2:11 am',
         isMeridianTime: true,
         size: i18nServiceScenario.formats.SHORT
+      },
+      {
+        locale: 'en-US',
+        format: 'YMD',
+        value: '2015-12-31T02:11:12',
+        expected: '2015-12-31 2:11:12 am',
+        isMeridianTime: true,
+        size: i18nServiceScenario.formats.MEDIUM
       }
     ];
 
-  scenarios.forEach(function(scenario) {
-    it('should format '+ scenario.size.toLowerCase() +
-       ' datetime for ' + scenario.locale +
-       ' locale, format: ' + scenario.format +
-       ', meridian:' + scenario.isMeridianTime, function() {
+  scenarios.forEach(function (scenario) {
+    it('should format ' + scenario.size.toLowerCase() +
+      ' datetime for ' + scenario.locale +
+      ' locale, format: ' + scenario.format +
+      ', meridian:' + scenario.isMeridianTime, function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: scenario.isMeridianTime,
         dateFormat: scenario.format,
@@ -199,9 +301,9 @@ describe('DateTime format', function() {
   });
 });
 
-describe('TimeAgo', function() {
-  describe('Timestamp', function() {
-    it('should return 1 day', function() {
+describe('TimeAgo', function () {
+  describe('Timestamp', function () {
+    it('should return 1 day', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -214,7 +316,7 @@ describe('TimeAgo', function() {
       var result = i18nService.getTimeAgoFromTimestamp(datetime.getTime());
       assert.equal(expected, JSON.stringify(result));
     });
-    it('should return 1 hour', function() {
+    it('should return 1 hour', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -227,7 +329,7 @@ describe('TimeAgo', function() {
       var result = i18nService.getTimeAgoFromTimestamp(datetime.getTime());
       assert.equal(expected, JSON.stringify(result));
     });
-    it('should return 1 second', function() {
+    it('should return 1 second', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -241,8 +343,8 @@ describe('TimeAgo', function() {
       assert.equal(expected, JSON.stringify(result));
     });
   });
-  describe('DateTime', function() {
-    it('should return 1 day', function() {
+  describe('DateTime', function () {
+    it('should return 1 day', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -256,7 +358,7 @@ describe('TimeAgo', function() {
       var result = i18nService.getTimeAgoFromDateTime(dateFormatted);
       assert.equal(expected, JSON.stringify(result));
     });
-    it('should return 1 hour', function() {
+    it('should return 1 hour', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -270,7 +372,7 @@ describe('TimeAgo', function() {
       var result = i18nService.getTimeAgoFromDateTime(dateFormatted);
       assert.equal(expected, JSON.stringify(result));
     });
-    it('should return 1 second', function() {
+    it('should return 1 second', function () {
       var i18nService = i18nServiceFactory({
         isMeridianTime: false
       });
@@ -285,68 +387,68 @@ describe('TimeAgo', function() {
       assert.equal(expected, JSON.stringify(result));
     });
   });
-  describe('Format', function() {
+  describe('Format', function () {
     var scenarios = [{
       substract: 1000,
       expect: 'il y a quelques secondes',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 60000,
       expect: 'il y a une minute',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 300000,
       expect: 'il y a 5 minutes',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 3600000,
       expect: 'il y a une heure',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 3600000 * 3,
       expect: 'il y a 3 heures',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 3600000 * 24,
       expect: 'il y a un jour',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 3600000 * 24 * 32,
       expect: 'il y a un mois',
       locale: 'fr-FR'
-    },{
+    }, {
       substract: 1000,
       expect: 'a few seconds ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 60000,
       expect: 'a minute ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 300000,
       expect: '5 minutes ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 3600000,
       expect: 'an hour ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 3600000 * 3,
       expect: '3 hours ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 3600000 * 24,
       expect: 'a day ago',
       locale: 'en-GB'
-    },{
+    }, {
       substract: 3600000 * 24 * 32,
       expect: 'a month ago',
       locale: 'en-GB'
     }];
 
-    var createTest = function(scenario, testFunction) {
-      return function() {
-        it('should return "' + scenario.expect + '" for locale ' + scenario.locale, function() {
+    var createTest = function (scenario, testFunction) {
+      return function () {
+        it('should return "' + scenario.expect + '" for locale ' + scenario.locale, function () {
           var i18nService = i18nServiceFactory({
             locale: scenario.locale
           });
@@ -358,35 +460,35 @@ describe('TimeAgo', function() {
       };
     };
 
-    var testFunctions = scenarios.map(function(scenario) {
+    var testFunctions = scenarios.map(function (scenario) {
       return {
-        dateTime: createTest(scenario, function(dateTime, i18nService) {
+        dateTime: createTest(scenario, function (dateTime, i18nService) {
           var dateFormatted = moment(dateTime).format();
           return i18nService.formatTimeAgoFromDateTime(dateFormatted);
         }),
-        timestamp: createTest(scenario, function(dateTime, i18nService) {
+        timestamp: createTest(scenario, function (dateTime, i18nService) {
           return i18nService.formatTimeAgoFromTimestamp(dateTime.getTime());
         })
       };
     });
 
-    describe('DateTime', function() {
-      testFunctions.forEach(function(testFunction) {
+    describe('DateTime', function () {
+      testFunctions.forEach(function (testFunction) {
         testFunction.dateTime();
       });
     });
-    describe('TimeStamp', function() {
-      testFunctions.forEach(function(testFunction) {
+    describe('TimeStamp', function () {
+      testFunctions.forEach(function (testFunction) {
         testFunction.timestamp();
       });
     });
   });
 });
 
-describe('Erroring', function() {
-  describe('Format', function() {
-    it('should throw bad datetime format format error', function() {
-      var throwingFunction = function() {
+describe('Erroring', function () {
+  describe('Format', function () {
+    it('should throw bad datetime format format error', function () {
+      var throwingFunction = function () {
         var i18nService = i18nServiceFactory({
           isMeridianTime: false
         });
@@ -398,7 +500,7 @@ describe('Erroring', function() {
   });
 });
 
-describe('Number format and unformat', function() {
+describe('Number format and unformat', function () {
   var scenarios =
     [
       {
@@ -435,8 +537,8 @@ describe('Number format and unformat', function() {
       }
     ];
 
-  scenarios.forEach(function(scenario) {
-    it('should format and unformat ' + scenario.locale + ' number with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals', function() {
+  scenarios.forEach(function (scenario) {
+    it('should format and unformat ' + scenario.locale + ' number with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals', function () {
       var i18nService = i18nServiceFactory({
         locale: scenario.locale
       });
@@ -447,7 +549,7 @@ describe('Number format and unformat', function() {
   });
 });
 
-describe('Number string format', function() {
+describe('Number string format', function () {
   var scenarios =
     [
       {
@@ -458,7 +560,7 @@ describe('Number string format', function() {
     ];
 });
 
-describe('Currency format and unformat', function() {
+describe('Currency format and unformat', function () {
   var scenarios =
     [
       {
@@ -501,8 +603,8 @@ describe('Currency format and unformat', function() {
       }
     ];
 
-  scenarios.forEach(function(scenario) {
-    it('should format and unformat ' + scenario.locale + ' currency with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals and currency ' + scenario['currency'], function() {
+  scenarios.forEach(function (scenario) {
+    it('should format and unformat ' + scenario.locale + ' currency with ' + (!!scenario['decimalCount'] ? scenario['decimalCount'] : 0) + ' decimals and currency ' + scenario['currency'], function () {
       var i18nService = i18nServiceFactory({
         locale: scenario.locale,
         currency: scenario.currency
@@ -514,7 +616,7 @@ describe('Currency format and unformat', function() {
   });
 });
 
-describe('Currency format with forced currency', function() {
+describe('Currency format with forced currency', function () {
   var scenarios =
     [
       {
@@ -548,8 +650,8 @@ describe('Currency format with forced currency', function() {
 
     ];
 
-  scenarios.forEach(function(scenario) {
-    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency, function() {
+  scenarios.forEach(function (scenario) {
+    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency, function () {
       var i18nService = i18nServiceFactory({
         locale: scenario.locale,
         currency: scenario.currency
@@ -560,7 +662,7 @@ describe('Currency format with forced currency', function() {
   });
 });
 
-describe('Currency format with forced currency and decimal count', function() {
+describe('Currency format with forced currency and decimal count', function () {
   var scenarios =
     [
       {
@@ -597,8 +699,8 @@ describe('Currency format with forced currency and decimal count', function() {
       }
     ];
 
-  scenarios.forEach(function(scenario) {
-    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency + ' and ' + scenario.decimalCount + ' decimals', function() {
+  scenarios.forEach(function (scenario) {
+    it('should format ' + scenario.locale + ' with currency ' + scenario.forcedCurrency + ' and ' + scenario.decimalCount + ' decimals', function () {
       var i18nService = i18nServiceFactory({
         locale: scenario.locale,
         currency: scenario.currency
@@ -609,31 +711,31 @@ describe('Currency format with forced currency and decimal count', function() {
   });
 });
 
-describe('Exposes moment', function() {
-  it('should exposes moment library', function() {
+describe('Exposes moment', function () {
+  it('should exposes moment library', function () {
     var i18nService = i18nServiceFactory();
     assert.notEqual(undefined, i18nService.moment);
   });
 });
 
 
-describe('Exposes momentTimezone', function() {
-  it('should exposes moment library', function() {
+describe('Exposes momentTimezone', function () {
+  it('should exposes moment library', function () {
     var i18nService = i18nServiceFactory();
     assert.notEqual(undefined, i18nService.momentTimezone);
   });
 });
 
 
-describe('Exposes numbro', function() {
-  it('should exposes numbro library', function() {
+describe('Exposes numbro', function () {
+  it('should exposes numbro library', function () {
     var i18nService = i18nServiceFactory();
     assert.notEqual(undefined, i18nService.numbro);
   });
 });
 
-describe('Exposes libPhoneNumber', function() {
-  it('should exposes libPhoneNumber library', function() {
+describe('Exposes libPhoneNumber', function () {
+  it('should exposes libPhoneNumber library', function () {
     var i18nService = i18nServiceFactory();
     assert.notEqual(undefined, i18nService.libPhoneNumber);
   });
