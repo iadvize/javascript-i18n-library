@@ -68,16 +68,19 @@ var dateToFormat = "1990-11-26T23:21:00"; // also accepts "1990-11-26 23:21:00" 
 // Dates
 i18nService.formatDate(dateToFormat);                            // 26/11/1990
 i18nService.formatDate(dateToFormat, i18nService.formats.SHORT); // 26/11/1990
+i18nService.formatDate(dateToFormat, i18nService.formats.MEDIUM); // 26/11/1990
 i18nService.formatDate(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990
 
 // Time
 i18nService.formatTime(dateToFormat);                            // 23:21
 i18nService.formatTime(dateToFormat, i18nService.formats.SHORT); // 23:21
+i18nService.formatTime(dateToFormat, i18nService.formats.MEDIUM); // 23:21:00
 i18nService.formatTime(dateToFormat, i18nService.formats.LONG);  // 23:21:00
 
 // DateTime
 i18nService.formatDateTime(dateToFormat);                            // 26/11/1990 23:21
 i18nService.formatDateTime(dateToFormat, i18nService.formats.SHORT); // 26/11/1990 23:21
+i18nService.formatDateTime(dateToFormat, i18nService.formats.MEDIUM); // 26/11/1990 23:21:00
 i18nService.formatDateTime(dateToFormat, i18nService.formats.LONG);  // 26 novembre 1990 23:21:00
 
 // TimeAgo

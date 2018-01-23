@@ -1,5 +1,5 @@
-(function() {
-  var i18nServiceFactory = function(moment, momentTimezone, numbro, libPhoneNumber, config) {
+(function () {
+  var i18nServiceFactory = function (moment, momentTimezone, numbro, libPhoneNumber, config) {
     var _config = {
       referenceTimezone: 'Europe/Paris',
       timezone: 'Europe/Paris',
@@ -13,30 +13,35 @@
       date: {
         MDY: {
           short: 'MM/DD/YYYY',
+          medium: 'MM/DD/YYYY',
           long: 'LL'
         },
         DMY: {
           short: 'DD/MM/YYYY',
+          medium: 'DD/MM/YYYY',
           long: 'LL'
         },
         YMD: {
           short: 'YYYY-MM-DD',
+          medium: 'YYYY-MM-DD',
           long: 'LL'
         }
       },
       time: {
         meridian: {
           short: 'h:mm a',
+          medium: 'h:mm:ss a',
           long: 'h:mm:ss a'
         },
         h24: {
           short: 'HH:mm',
+          medium: 'HH:mm:ss',
           long: 'HH:mm:ss'
         }
       }
     };
 
-    var _mergeConfiguration = function(baseConfig, overrideConfig) {
+    var _mergeConfiguration = function (baseConfig, overrideConfig) {
       var stampConfig = JSON.parse(JSON.stringify(baseConfig));
       for (var key in overrideConfig) {
         stampConfig[key] = overrideConfig[key];
@@ -45,7 +50,7 @@
       return stampConfig;
     };
 
-    var _parseTimestamp = function(timestamp) {
+    var _parseTimestamp = function (timestamp) {
       var parsedTimestamp = parseInt(timestamp, 10);
       if (isNaN(parsedTimestamp)) {
         throw 'i18n : bad timestamp format for input "' + timestamp + '", expect timestamp format.';
@@ -69,7 +74,7 @@
       return moment(timeZonedDateTime).locale(_config.locale);
     };
 
-    var _parseDateTime = function(dateTimeString) {
+    var _parseDateTime = function (dateTimeString) {
       var parsedDateTime = momentTimezone.tz(
         dateTimeString,
         moment.ISO_8601(),
@@ -88,7 +93,7 @@
       return moment(timeZonedDateTime).locale(_config.locale);
     };
 
-    var _getTimeAgo = function(dateTime) {
+    var _getTimeAgo = function (dateTime) {
       var currentDateTime = moment();
       var timeAgoPayload = {
         type: '',
@@ -109,47 +114,47 @@
         timeAgoPayload.type = 'seconds';
       }
 
-      if(timeAgoPayload.offset < 0) {
+      if (timeAgoPayload.offset < 0) {
         throw 'i18n : future date not possible ;)';
       }
 
       return timeAgoPayload;
     };
 
-    var _currencyISOToCurrencySymbol = function(currency, locale) {
+    var _currencyISOToCurrencySymbol = function (currency, locale) {
       var currencies = {
-        AUD: {default: "AU$", "en-AU": "$"},
-        BGN: {default: "лв"},
-        BRL: {default: "BR$"},
-        CAD: {default: "CA$", "en-CA": "$"},
-        CHF: {default: "CHF"},
-        CNY: {default: "CN¥", "zh-CN": "Ұ", "zh-HK": "元", "zh-TW": "￥"},
-        CZK: {default: "CZK"},
-        DKK: {default: "DKK", "da-DA": "kr"},
-        EUR: {default: "€"},
-        GBP: {default: "£UK", "en-GB": "£"},
-        HKD: {default: "HK$", "zh-HK": "$"},
-        HRK: {default: "HRK"},
-        HUF: {default: "HUF"},
-        IDR: {default: "IDR"},
-        ILS: {default: "₪"},
-        INR: {default: "₹"},
-        JPY: {default: "JP¥", "ja-JP": "¥"},
-        KRW: {default: "₩"},
-        MXN: {default: "MX$"},
-        MYR: {default: "MYR"},
-        NOK: {default: "NOK", "sv-SE": "kr"},
-        NZD: {default: "NZ$", "en-NZ": "$"},
-        PHP: {default: "PHP"},
-        PLN: {default: "PLN"},
-        RON: {default: "ROL", "ro-RO": "lei"},
-        RUB: {default: "RUB"},
-        SEK: {default: "SEK", "sv-SE": "kr"},
-        SGD: {default: "S$"},
-        THB: {default: "฿"},
-        TRY: {default: "TRY"},
-        USD: {default: "US$", "en-US": "$"},
-        ZAR: {default: "ZAR"}
+        AUD: { default: "AU$", "en-AU": "$" },
+        BGN: { default: "лв" },
+        BRL: { default: "BR$" },
+        CAD: { default: "CA$", "en-CA": "$" },
+        CHF: { default: "CHF" },
+        CNY: { default: "CN¥", "zh-CN": "Ұ", "zh-HK": "元", "zh-TW": "￥" },
+        CZK: { default: "CZK" },
+        DKK: { default: "DKK", "da-DA": "kr" },
+        EUR: { default: "€" },
+        GBP: { default: "£UK", "en-GB": "£" },
+        HKD: { default: "HK$", "zh-HK": "$" },
+        HRK: { default: "HRK" },
+        HUF: { default: "HUF" },
+        IDR: { default: "IDR" },
+        ILS: { default: "₪" },
+        INR: { default: "₹" },
+        JPY: { default: "JP¥", "ja-JP": "¥" },
+        KRW: { default: "₩" },
+        MXN: { default: "MX$" },
+        MYR: { default: "MYR" },
+        NOK: { default: "NOK", "sv-SE": "kr" },
+        NZD: { default: "NZ$", "en-NZ": "$" },
+        PHP: { default: "PHP" },
+        PLN: { default: "PLN" },
+        RON: { default: "ROL", "ro-RO": "lei" },
+        RUB: { default: "RUB" },
+        SEK: { default: "SEK", "sv-SE": "kr" },
+        SGD: { default: "S$" },
+        THB: { default: "฿" },
+        TRY: { default: "TRY" },
+        USD: { default: "US$", "en-US": "$" },
+        ZAR: { default: "ZAR" }
       };
 
       if (currencies[currency]) {
@@ -167,53 +172,60 @@
     _config.currencySymbol = _currencyISOToCurrencySymbol(_config.currency, _config.locale);
 
     return {
-      getTimeAgoFromTimestamp: function(timestamp) {
+      getTimeAgoFromTimestamp: function (timestamp) {
         return _getTimeAgo(_parseTimestamp(timestamp));
       },
-      getTimeAgoFromDateTime: function(dateTimeString) {
+      getTimeAgoFromDateTime: function (dateTimeString) {
         return _getTimeAgo(_parseDateTime(dateTimeString));
       },
-      formatTimeAgoFromDateTime: function(dateTimeString) {
+      formatTimeAgoFromDateTime: function (dateTimeString) {
         return _parseDateTime(dateTimeString).fromNow();
       },
-      formatTimeAgoFromTimestamp: function(timestamp) {
+      formatTimeAgoFromTimestamp: function (timestamp) {
         return _parseTimestamp(timestamp).fromNow();
       },
-      formatDateTime: function(dateTimeString, formatType) {
+      formatDateTime: function (dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _formats.date[_config.dateFormat].short;
         var timeFormat = _formats.time[_config.timeFormat].short;
         if (formatType === this.formats.LONG) {
           dateFormat = _formats.date[_config.dateFormat].long;
           timeFormat = _formats.time[_config.timeFormat].long;
+        } else if (formatType === this.formats.MEDIUM) {
+          dateFormat = _formats.date[_config.dateFormat].medium;
+          timeFormat = _formats.time[_config.timeFormat].medium;
         }
 
         return timeZonedDateTime.format(dateFormat + ' ' + timeFormat);
       },
-      formatDate: function(dateTimeString, formatType) {
+      formatDate: function (dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var dateFormat = _formats.date[_config.dateFormat].short;
         if (formatType === this.formats.LONG) {
           dateFormat = _formats.date[_config.dateFormat].long;
+        } else if (formatType === this.formats.MEDIUM) {
+          dateFormat = _formats.date[_config.dateFormat].medium;
         }
 
         return timeZonedDateTime.format(dateFormat);
       },
-      formatTime: function(dateTimeString, formatType) {
+      formatTime: function (dateTimeString, formatType) {
         var timeZonedDateTime = _parseDateTime(dateTimeString);
         var timeFormat = _formats.time[_config.timeFormat].short;
         if (formatType === this.formats.LONG) {
-            timeFormat = _formats.time[_config.timeFormat].long;
+          timeFormat = _formats.time[_config.timeFormat].long;
+        } else if (formatType === this.formats.MEDIUM) {
+          timeFormat = _formats.time[_config.timeFormat].medium;
         }
 
         return timeZonedDateTime.format(timeFormat);
       },
-      formatNumber: function(value, decimalCount) {
+      formatNumber: function (value, decimalCount) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
         if (decimalCount === undefined) {
           var splittedValue = value.toString().split('.');
-          if(!!splittedValue[1]) {
+          if (!!splittedValue[1]) {
             decimalCount = splittedValue[1].length;
           } else {
             decimalCount = 0;
@@ -226,7 +238,7 @@
         numbro.language(oldLanguage);
         return valueFormated;
       },
-      formatCurrency: function(value, decimalCount, forcedCurrency) {
+      formatCurrency: function (value, decimalCount, forcedCurrency) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
 
@@ -237,7 +249,7 @@
 
         if (decimalCount === undefined) {
           var splittedValue = value.toString().split('.');
-          if(!!splittedValue[1]) {
+          if (!!splittedValue[1]) {
             decimalCount = splittedValue[1].length;
           } else {
             decimalCount = 0;
@@ -253,7 +265,7 @@
         numbro.language(oldLanguage);
         return valueFormated;
       },
-      unformat: function(formattedValue) {
+      unformat: function (formattedValue) {
         var oldLanguage = numbro.language();
         numbro.language(_config.locale);
         var rawValue = numbro().unformat(formattedValue);
@@ -262,6 +274,7 @@
       },
       formats: {
         SHORT: "SHORT",
+        MEDIUM: "MEDIUM",
         LONG: "LONG"
       },
       moment: moment,
@@ -280,7 +293,7 @@
     var momentTimezone = require('moment-timezone');
     var moment = require('moment/min/moment-with-locales');
     var libPhoneNumber = require('google-libphonenumber');
-    module.exports = function(config) {
+    module.exports = function (config) {
       // Pass moment with locales and moment-timezone because moment-timezone is not able to load all locales.
       return i18nServiceFactory(moment, momentTimezone, numbro, libPhoneNumber, config);
     };
@@ -289,7 +302,7 @@
   // Browser
   if (typeof window !== 'undefined') {
     window.iadvize = window.iadvize || {};
-    window.iadvize.i18nServiceFactory = function(config) {
+    window.iadvize.i18nServiceFactory = function (config) {
       // Pass global moment twice because moment and moment-timezone are merged on desktop.
       return i18nServiceFactory(window.moment, window.moment, window.numbro, window.libPhoneNumber, config);
     };
