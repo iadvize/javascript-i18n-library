@@ -122,4 +122,4 @@ var i18nService = window.iadvize.i18nServiceFactory(config);
 
 ## Contribute
 
-Look at contribution guidelines here : [CONTRIBUTING.md]()
+Look at contribution guidelines here : [CONTRIBUTING.md](CONTRIBUTING.md)
