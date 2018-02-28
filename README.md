@@ -61,19 +61,6 @@ npm install javascript-i18n-library --save
 
 ## Documentation
 
-
-### Test
-
-```sh
-npm test
-```
-
-To automatically launch the tests when a file is changed :
-
-```sh
-npm run-script watch-test
-```
-
 ### Configuration
 
 The factory accept a config object to override default configuration.
@@ -123,3 +110,15 @@ var i18nService = window.iadvize.i18nServiceFactory(config);
 ## Contribute
 
 Look at contribution guidelines here : [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### Test
+
+```sh
+yarn test
+```
+
+To automatically launch the tests when a file is changed :
+
+```sh
+yarn run-script watch-test
+```
