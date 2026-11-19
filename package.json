@@ -16,7 +16,7 @@
   "dependencies": {
     "google-libphonenumber": "^1.0.22",
     "moment": "^2.31.0",
-    "moment-timezone": "0.4.0",
+    "moment-timezone": "^0.6.6",
     "numbro": "1.4.0"
   },
   "devDependencies": {
