@@ -1,17 +1,36 @@
 version: 2.1
-jobs:
-  build:
-    docker:
-      - image: cimg/node:26.13.1
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn install --frozen-lockfile
-      - run:
-          name: Run tests
-          command: yarn test
+
+orbs:
+  ci-cd: iadvize/ci-cd@volatile
+
+context: &context
+  context: org-global
+
 workflows:
   build:
     jobs:
-      - build
+      - ci-cd/node_lib:
+          context:
+            - org-global
+            - org-lib
+          pkg_manager: yarn
+          executor:
+            name: ci-cd/node
+            node_version: '26.13'
+          filters:
+            branches:
+              ignore: &default-branch master
+            tags:
+              only: /.*/
+  release:
+    jobs:
+      - ci-cd/check_pr_labels:
+          <<: *context
+          filters:
+            branches:
+              ignore: *default-branch
+      - ci-cd/create_release:
+          <<: *context
+          filters:
+            branches:
+              only: *default-branch
