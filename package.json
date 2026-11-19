@@ -1,14 +1,14 @@
 {
-  "name": "javascript-i18n-library",
+  "name": "@iadvize/javascript-i18n-library",
   "version": "1.6.1",
   "description": "This javascript library is used to format dates, numbers and currencies. It's compatible with Node and Browsers.",
   "main": "javascript-i18n-library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iadvize/javascript-i18n-library.git"
+    "url": "git+https://github.com/iadvize/javascript-i18n-library.git"
   },
   "author": "PaGury",
-  "license": "iAdvize",
+  "license": "iadvize",
   "bugs": {
     "url": "https://github.com/iadvize/javascript-i18n-library/issues"
   },
@@ -26,6 +26,12 @@
   "scripts": {
     "test": "npm run test-node",
     "test-node": "./node_modules/mocha/bin/mocha -R spec ./test/node/index.js",
-    "watch-test": "./node_modules/mocha/bin/mocha -w -R spec ./test/node/index.js"
+    "watch-test": "./node_modules/mocha/bin/mocha -w -R spec ./test/node/index.js",
+    "test:ci": "npm run test",
+    "lint:ci": "echo 'No linter configured'",
+    "build:ci": "echo 'Nothing to build'"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
