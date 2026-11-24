@@ -740,3 +740,68 @@ describe('Exposes libPhoneNumber', function () {
     assert.notEqual(undefined, i18nService.libPhoneNumber);
   });
 });
+
+describe('Timezone conversion', function () {
+  var scenarios =
+    [
+      {referenceTimezone: 'Europe/Paris', timezone: 'America/New_York', value: '2015-12-31T10:11:12', expected: 'December 31, 2015 04:11:12'},
+      {referenceTimezone: 'Europe/Paris', timezone: 'America/New_York', value: '2026-11-19T12:00:00', expected: 'November 19, 2026 06:00:00'},
+      {referenceTimezone: 'Europe/Paris', timezone: 'Asia/Tokyo', value: '2015-12-31T10:11:12', expected: 'December 31, 2015 18:11:12'},
+      {referenceTimezone: 'UTC', timezone: 'Asia/Kolkata', value: '2015-07-01T00:00:00Z', expected: 'July 1, 2015 05:30:00'},
+      {referenceTimezone: 'UTC', timezone: 'Asia/Kathmandu', value: '2014-06-15T12:00:00', expected: 'June 15, 2014 17:45:00'},
+      {referenceTimezone: 'UTC', timezone: 'Australia/Lord_Howe', value: '2015-12-31T10:11:12', expected: 'December 31, 2015 21:11:12'},
+      {referenceTimezone: 'UTC', timezone: 'Australia/Lord_Howe', value: '2014-06-15T12:00:00', expected: 'June 15, 2014 22:30:00'},
+      {referenceTimezone: 'Europe/Paris', timezone: 'Pacific/Chatham', value: '2014-06-15T12:00:00', expected: 'June 15, 2014 22:45:00'},
+      // Europe/Paris DST start and end
+      {referenceTimezone: 'Europe/Paris', timezone: 'UTC', value: '2015-03-29T01:30:00', expected: 'March 29, 2015 00:30:00'},
+      {referenceTimezone: 'Europe/Paris', timezone: 'UTC', value: '2015-03-29T03:30:00', expected: 'March 29, 2015 01:30:00'},
+      {referenceTimezone: 'Europe/Paris', timezone: 'UTC', value: '2015-10-25T02:30:00', expected: 'October 25, 2015 00:30:00'},
+      // America/New_York DST start and end
+      {referenceTimezone: 'America/New_York', timezone: 'Europe/Paris', value: '2015-03-08T02:30:00', expected: 'March 8, 2015 08:30:00'},
+      {referenceTimezone: 'America/New_York', timezone: 'Europe/Paris', value: '2015-11-01T01:30:00', expected: 'November 1, 2015 06:30:00'},
+      // An explicit offset in the input wins over the reference timezone
+      {referenceTimezone: 'UTC', timezone: 'Europe/Paris', value: '2015-07-01T23:59:59+05:30', expected: 'July 1, 2015 20:29:59'}
+    ];
+  scenarios.forEach(function (scenario) {
+    it('should convert ' + scenario.value + ' from ' + scenario.referenceTimezone + ' to ' + scenario.timezone, function () {
+      var i18nService = i18nServiceFactory({
+        referenceTimezone: scenario.referenceTimezone,
+        timezone: scenario.timezone,
+        locale: 'en-US'
+      });
+      assert.equal(i18nService.formatDateTime(scenario.value, i18nService.formats.LONG), scenario.expected);
+    });
+  });
+  it('should convert to the configured timezone with meridian time', function () {
+    var i18nService = i18nServiceFactory({
+      referenceTimezone: 'America/New_York',
+      timezone: 'America/Los_Angeles',
+      locale: 'en-US',
+      isMeridianTime: true
+    });
+    assert.equal(i18nService.formatDateTime('2016-02-29T12:00:00', i18nService.formats.LONG), 'February 29, 2016 9:00:00 am');
+    assert.equal(i18nService.formatDate('2016-02-29T12:00:00', i18nService.formats.MEDIUM), '29/02/2016');
+    assert.equal(i18nService.formatTime('2016-02-29T12:00:00', i18nService.formats.MEDIUM), '9:00:00 am');
+  });
+  var offsetScenarios =
+    [
+      {referenceTimezone: 'Europe/Paris', offset: -330, value: '2015-12-31T10:11:12', expected: 'December 31, 2015 03:41:12'},
+      {referenceTimezone: 'UTC', offset: 345, value: '2014-06-15T12:00:00', expected: 'June 15, 2014 17:45:00'},
+      {referenceTimezone: 'America/New_York', offset: 0, value: '2015-07-01T00:00:00Z', expected: 'July 1, 2015 00:00:00'}
+    ];
+  offsetScenarios.forEach(function (scenario) {
+    it('should apply a ' + scenario.offset + ' minutes offset from ' + scenario.referenceTimezone, function () {
+      var i18nService = i18nServiceFactory({
+        referenceTimezone: scenario.referenceTimezone,
+        offset: scenario.offset,
+        locale: 'en-US'
+      });
+      assert.equal(i18nService.formatDateTime(scenario.value, i18nService.formats.LONG), scenario.expected);
+    });
+  });
+  it('should expose a working momentTimezone', function () {
+    var i18nService = i18nServiceFactory();
+    assert.equal(i18nService.momentTimezone.tz(1435708800000, 'America/New_York').format(), '2015-06-30T20:00:00-04:00');
+    assert.equal(i18nService.momentTimezone.tz(1435708800000, 'Europe/Paris').format('z Z'), 'CEST +02:00');
+  });
+});
